@@ -6,10 +6,11 @@ services:
   app:
     build:
       context: ..
-      dockerfile: docker/Dockerfile-dev
+      dockerfile: docker/Dockerfile
+      no_cache: true
     container_name: go_api_container
     ports:
       - "8080:8080"
 
 # Nota: a chave version é obsoleta em compose v2/v3, mas está mantida aqui para compatibilidade.
-# O build usa o Dockerfile-dev em docker/Dockerfile-dev e copia o conteúdo do projeto para /app.
+# O build usa o Dockerfile em docker/Dockerfile e copia o conteúdo do projeto para /app.
