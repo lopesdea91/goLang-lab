@@ -1,0 +1,15 @@
+# docker-compose.yml
+# Define o build e o serviço da aplicação Go
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: go_api_container
+    ports:
+      - "8080:8080"
+
+# Nota: a chave version é obsoleta em compose v2/v3, mas está mantida aqui para compatibilidade.
+# O build usa o Dockerfile em docker/Dockerfile e copia o conteúdo do projeto para /app.
