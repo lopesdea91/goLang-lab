@@ -1,16 +1,38 @@
-# docker-compose.yml
-# Define o build e o serviço da aplicação Go
-version: "3.8"
+version: "3"
 
 services:
-  app:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-      no_cache: true
-    container_name: go_api_container
-    ports:
-      - "8080:8080"
+  # app:
+  #   container_name: go_api
+  #   build:
+  #     context: ..
+  #     dockerfile: docker/Dockerfile
+  #     no_cache: true
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - postgres
+  #     - pgadmin-compose
 
-# Nota: a chave version é obsoleta em compose v2/v3, mas está mantida aqui para compatibilidade.
-# O build usa o Dockerfile em docker/Dockerfile e copia o conteúdo do projeto para /app.
+  postgres:
+    container_name: go_db
+    image: "postgres"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=root
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql
+
+  pgadmin-compose:
+    container_name: go_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "teste@aluno.com"
+      PGADMIN_DEFAULT_PASSWORD: "123456"
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+    ports:
+      - "54321:80"
+    depends_on:
+      - postgres
